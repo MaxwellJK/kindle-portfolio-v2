@@ -1,0 +1,15 @@
+services:
+  api:
+    image: ghcr.io/maxwelljk/kindle-portfolio-v2-api:latest
+    container_name: kindle-portfolio
+    restart: unless-stopped
+    ports:
+      - "8000:8000"
+    environment:
+      TZ: Europe/London
+      DATABASE_URL: postgresql://username:password@host:port/database
+      TABLE_NAME: [schema.]table
+      DISPLAY_CURRENCY: GBP
+      REFRESH_INTERVAL_MINUTES: "15" 
+      T212_API_KEY: <api key>
+      T212_ENV: live     # or 'demo' for paper trading
