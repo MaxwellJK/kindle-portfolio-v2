@@ -10,22 +10,17 @@ Trading 212 transaction log stored in Postgres.  No writes, no external APIs.
 3. `curl http://localhost:8000/portfolio | python3 -m json.tool`
 
 ## Kindle setup (the whole client side)
+The script is saving the image in `/mnt/us/screensaver/` that is the folder used by KOReader for custom screensaver images.
 
+1. Save `kindle_portfolio_v2.sh` in `/mnt/us/` on your jailbroken kindle
+2. Run it with `nohup` so it won't stop after disconnecting
 ```sh
-# /etc/cron.d/portfolio  — runs every 15 minutes on the Kindle
-*/15 * * * * root curl -s http://YOUR_SERVER_IP:8000/display/image.png \
-  -o /tmp/portfolio.png && eips -g /tmp/portfolio.png
+nohup /bin/sh /mnt/us/kindle_portfolio_v2.sh > /mnt/us/kindle_portfolio_v2.log 2>&1 &
 ```
 
 That's it. The Kindle fetches a ready-to-display 800×600 greyscale PNG and
-pushes it to the e-ink screen with `eips`. No Python, no rendering, nothing
-else needed on the device.
-
-If you're using KOReader's screensaver instead of `eips`:
-```sh
-curl -s http://YOUR_SERVER_IP:8000/display/image.png \
-  -o /mnt/us/koreader/screensaver/portfolio.png
-```
+pushes it to the e-ink screen.
+The image is refreshed from Monday to Friday, from 8am to 8pm.
 
 ## API endpoints
 
