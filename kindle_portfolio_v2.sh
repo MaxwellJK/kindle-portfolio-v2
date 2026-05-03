@@ -5,7 +5,7 @@ SERVER="http://192.168.1.84:8000"
 URL="$SERVER/display/image.png"
 SAVEPATH="/mnt/us/screensaver/portfolio.png"
 TEST_IP="192.168.1.1" # Used to check if internet is actually working
-WAIT=300  # 5 min
+# WAIT=300  # 5 min
 
 seconds_to_next_run() {
     now=$(date +%s)
@@ -44,7 +44,6 @@ seconds_to_next_run() {
     fi
 }
 
-
 while true; do
     echo "--- Cycle Started: $(date) ---"
 
@@ -67,7 +66,6 @@ while true; do
     if [ $CONNECTED -eq 1 ]; then
         echo "Downloading image..."
         wget -q -O "$SAVEPATH" "$URL"
-        # touch "$SAVEPATH" # Force filesystem to notice the change
     else
         echo "Wi-Fi timeout. Skipping download."
     fi
@@ -80,7 +78,7 @@ while true; do
     # $FBINK -g "$SAVEPATH" -s -d -r 1 -f
 
     # 6. Calculate seconds to next 8:00 (AM or PM)
-    NOW=$(date +%s)
+    # NOW=$(date +%s)
     # T8AM=$(date -d "08:00:00" +%s)
     # T8PM=$(date -d "20:00:00" +%s)
 
@@ -93,8 +91,8 @@ while true; do
     # fi
 
     # 7. Set Hardware Alarm
-    echo "Next refresh in $WAIT seconds. Sleeping now."
     next_run=$(seconds_to_next_run)
+    echo "Next refresh in $next_run seconds. Sleeping now."
     rtcwake -d /dev/rtc0 -m on -s $next_run
 
     # 8. Force Deep Sleep / Screensaver
